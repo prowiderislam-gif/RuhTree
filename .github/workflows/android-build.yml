@@ -8,11 +8,11 @@ on:
 
 jobs:
   build:
-    name: Build Android APK
+    name: Build RuhTree APK
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout source code
         uses: actions/checkout@v4
 
       - name: Set up Java 17
@@ -22,12 +22,10 @@ jobs:
           java-version: '17'
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Build Debug APK
-        run: |
-          chmod +x ./gradlew
-          ./gradlew assembleDebug --no-daemon
+        run: gradle assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4

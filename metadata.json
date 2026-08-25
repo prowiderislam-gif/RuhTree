@@ -1,0 +1,6 @@
+{
+  "name": "Ruh Tree",
+  "description": "Ruh Tree - Futuristic family tree with secure cloud vault backup, unique User ID & password protection, real-time sync, kinship calculator, and unlimited branching.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

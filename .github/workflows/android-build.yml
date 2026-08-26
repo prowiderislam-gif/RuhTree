@@ -37,13 +37,32 @@ jobs:
             -validity 10000 \
             -dname "CN=Android Debug,O=Android,C=US"
 
-      - name: Build Debug APK with detailed Kotlin errors
+      - name: Compile Kotlin and save full log
+        id: build
+        continue-on-error: true
         run: |
+          set -o pipefail
           gradle assembleDebug \
             --no-daemon \
             --stacktrace \
             --info \
-            --warning-mode all
+            --warning-mode all 2>&1 | tee kotlin-build.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Upload complete build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RuhTree-build-log
+          path: kotlin-build.log
+          if-no-files-found: warn
+
+      - name: Stop if build failed
+        if: steps.build.outcome == 'failure'
+        run: |
+          echo "❌ RuhTree Android build failed."
+          echo "Download the RuhTree-build-log artifact to see the complete compiler error."
+          exit 1
 
       - name: Upload APK
         if: success()
